@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+
+# generated data/results/reports
+/data/instances/*
+!/data/instances/.gitkeep
+/data/processed/*
+!/data/processed/.gitkeep
+/results/*
+!/results/.gitkeep
+/reports/*
+!/reports/.gitkeep
+
+*.log
