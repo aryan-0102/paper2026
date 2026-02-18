@@ -1,0 +1,49 @@
+seed: 42
+city: Chandigarh
+place: Chandigarh, India
+data:
+  graph_path: data/processed/chandigarh.graphml
+  instances_dir: data/instances
+  results_csv: results/results.csv
+  summary_csv: results/summary.csv
+  metadata_json: results/run_metadata.json
+  report_pdf: reports/benchmark_report.pdf
+graph:
+  use_osm: true
+  synthetic:
+    grid_w: 8
+    grid_h: 8
+    spacing_m: 500
+instance:
+  n_instances: 2
+  n_customers: [20, 40]
+  n_vehicles: 5
+  vehicle_capacity: 60
+  customer_types:
+    residential_prob: 0.65
+  demand:
+    lambda: 4.0
+    min: 1
+    max: 10
+  service_time_s:
+    min: 120
+    max: 480
+stochastic:
+  peak_hours: [8.0, 17.0]
+  peak_sigma_h: 1.5
+  congestion_strength: 0.35
+  distance_lambda_m: 2500
+  lognormal:
+    base_mu: 0.0
+    peak_mu: 0.08
+    base_sigma: 0.08
+    peak_sigma: 0.20
+  accidents:
+    prob_per_leg: 0.04
+    delay_mean_s: 240
+    delay_std_s: 90
+evaluation:
+  mc_rollouts: 40
+  run_seeds: [11, 22]
+  solvers: [nn2opt, ortools, abc, aco, hybrid_aco_abc, alns]
+  time_limit_s: 3

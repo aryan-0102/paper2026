@@ -1,0 +1,14 @@
+seed: 7
+place: Chandigarh, India
+city: Chandigarh
+inherits: configs/default.yaml
+instance:
+  n_instances: 1
+  n_customers: [15]
+  n_vehicles: 4
+  vehicle_capacity: 50
+evaluation:
+  mc_rollouts: 20
+  run_seeds: [1]
+  solvers: [nn2opt, abc, alns, ortools]
+  time_limit_s: 2
