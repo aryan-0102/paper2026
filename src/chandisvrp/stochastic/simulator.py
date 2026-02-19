@@ -26,8 +26,9 @@ def simulate_plan(
     total_dist = 0.0
     late = 0
     lateness: list[float] = []
+    start_s = stochastic_cfg.get("start_hour", 8.0) * 3600.0
     for route in plan.routes:
-        t = 8 * 3600.0
+        t = start_s
         prev = instance.depot_node
         for cid in route:
             c = c_map[cid]
@@ -46,7 +47,7 @@ def simulate_plan(
         tr_t = travel_time_s(rng, bt, d, t, stochastic_cfg)
         t += tr_t
         total_dist += d
-        total_time += t - 8 * 3600.0
+        total_time += t - start_s
     feasible = late == 0
     return SimulationOutcome(
         total_time_s=total_time,

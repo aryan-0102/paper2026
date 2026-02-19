@@ -9,7 +9,10 @@ from chandisvrp.types import Instance, RoutePlan
 
 
 def _latlon_from_xy(x: float, y: float) -> tuple[float, float]:
-    # synthetic fallback coordinates are meters; map them to a tiny lat/lon tile around Chandigarh
+    # If coordinates look like lat/lon (e.g. Chandigarh is ~30, ~76), use them directly.
+    # Synthetic fallback coordinates are meters from (0,0).
+    if -90 <= y <= 90 and -180 <= x <= 180:
+        return y, x
     base_lat, base_lon = 30.7333, 76.7794
     return base_lat + (y / 111_000.0), base_lon + (x / (111_000.0 * 0.86))
 
@@ -46,6 +49,19 @@ def generate_route_map(
 
     folium.Marker([c_lat, c_lon], popup="Depot", icon=folium.Icon(color="black", icon="home")).add_to(m)
 
+    all_customers = folium.FeatureGroup(name="All customers", show=True)
+    for customer in instance.customers:
+        nd = g.nodes[customer.node]
+        lat, lon = _latlon_from_xy(float(nd.get("x", 0.0)), float(nd.get("y", 0.0)))
+        folium.CircleMarker(
+            [lat, lon],
+            radius=2,
+            color="#555555",
+            fill=True,
+            fill_opacity=0.6,
+        ).add_to(all_customers)
+    all_customers.add_to(m)
+
     for idx, route in enumerate(plan.routes):
         color = colors[idx % len(colors)]
         poly: list[tuple[float, float]] = [(c_lat, c_lon)]
@@ -64,6 +80,8 @@ def generate_route_map(
             ).add_to(m)
         poly.append((c_lat, c_lon))
         folium.PolyLine(poly, color=color, weight=3, opacity=0.8, tooltip=f"Route {idx + 1}").add_to(m)
+
+    folium.LayerControl().add_to(m)
 
     out = Path(out_html)
     out.parent.mkdir(parents=True, exist_ok=True)

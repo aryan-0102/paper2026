@@ -15,7 +15,7 @@ from chandisvrp.instances.serialization import load_instance
 from chandisvrp.solvers.abc_solver import ABCSolver
 from chandisvrp.solvers.aco_solver import ACOSolver
 from chandisvrp.solvers.alns_solver import ALNSSolver
-from chandisvrp.solvers.constructive import NearestNeighbor2OptSolver
+from chandisvrp.solvers.constructive import NearestNeighbor2OptSolver, NearestNeighborSolver, RandomSolver
 from chandisvrp.solvers.hybrid_aco_abc import HybridACOABCSolver
 from chandisvrp.solvers.ortools_solver import OrtoolsSolver
 from chandisvrp.stochastic.simulator import simulate_plan
@@ -23,6 +23,8 @@ from chandisvrp.stochastic.simulator import simulate_plan
 
 SOLVERS = {
     "nn2opt": NearestNeighbor2OptSolver,
+    "nearest_neighbor": NearestNeighborSolver,
+    "random": RandomSolver,
     "ortools": OrtoolsSolver,
     "abc": ABCSolver,
     "aco": ACOSolver,
@@ -70,12 +72,28 @@ class BenchmarkRunner:
                         "realized_time_std": float(np.std(times)),
                         "feasibility_rate": float(np.mean([1.0 if o.feasible else 0.0 for o in outcomes])),
                         "cvr_mean": cvr(costs),
+                        "cost_per_delivery": float(np.mean(costs)) / max(len(instance.customers), 1),
                         "lateness_mean_s": float(np.mean(lates)) if lates else 0.0,
                         "lateness_p95_s": float(np.percentile(lates, 95)) if lates else 0.0,
                     }
                     rows.append(row)
         df = pd.DataFrame(rows)
         summary = df.groupby(["instance_id", "solver"], as_index=False).mean(numeric_only=True)
+        std_metrics = [
+            "solve_time_s",
+            "realized_cost_mean",
+            "realized_time_mean",
+            "feasibility_rate",
+            "cvr_mean",
+            "cost_per_delivery",
+            "lateness_mean_s",
+        ]
+        run_std = (
+            df.groupby(["instance_id", "solver"], as_index=False)[std_metrics]
+            .std(numeric_only=True)
+            .rename(columns={m: f"{m}_run_std" for m in std_metrics})
+        )
+        summary = summary.merge(run_std, on=["instance_id", "solver"], how="left")
         return df, summary
 
     def save(self, df: pd.DataFrame, summary: pd.DataFrame) -> None:

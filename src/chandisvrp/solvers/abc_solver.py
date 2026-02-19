@@ -18,7 +18,6 @@ class ABCSolver(Solver):
         cids = [c.customer_id for c in instance.customers]
         node_of = {c.customer_id: c.node for c in instance.customers}
         best = cids[:]
-        rng.shuffle(best)
         start = time.time()
 
         def score(perm: list[int]) -> float:

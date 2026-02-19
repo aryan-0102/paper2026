@@ -23,7 +23,8 @@ def load_config(path: str | Path) -> dict[str, Any]:
     if inherit:
         parent_path = Path(inherit)
         if not parent_path.is_absolute():
-            parent_path = p.parent / parent_path
+            candidate = p.parent / parent_path
+            parent_path = candidate if candidate.exists() else parent_path
         parent = load_config(parent_path)
         cfg = deep_merge(parent, {k: v for k, v in cfg.items() if k != "inherits"})
     return cfg

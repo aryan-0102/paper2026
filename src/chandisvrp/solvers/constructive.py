@@ -62,3 +62,30 @@ class NearestNeighbor2OptSolver(Solver):
         routes = split_by_capacity(order, instance.customers, instance.vehicle_capacity)
         routes = [two_opt(r, g, node_of, instance.depot_node) if len(r) > 3 else r for r in routes]
         return RoutePlan(routes=routes)
+
+
+class NearestNeighborSolver(Solver):
+    name = "nearest_neighbor"
+
+    def solve(self, g: nx.MultiDiGraph, instance: Instance, rng: np.random.Generator, time_limit_s: float) -> RoutePlan:
+        remaining = set(c.customer_id for c in instance.customers)
+        node_of = {c.customer_id: c.node for c in instance.customers}
+        order: list[int] = []
+        cur = instance.depot_node
+        while remaining:
+            nxt = min(remaining, key=lambda cid: _dist(g, cur, node_of[cid]))
+            order.append(nxt)
+            cur = node_of[nxt]
+            remaining.remove(nxt)
+        routes = split_by_capacity(order, instance.customers, instance.vehicle_capacity)
+        return RoutePlan(routes=routes)
+
+
+class RandomSolver(Solver):
+    name = "random"
+
+    def solve(self, g: nx.MultiDiGraph, instance: Instance, rng: np.random.Generator, time_limit_s: float) -> RoutePlan:
+        order = [c.customer_id for c in instance.customers]
+        rng.shuffle(order)
+        routes = split_by_capacity(order, instance.customers, instance.vehicle_capacity)
+        return RoutePlan(routes=routes)

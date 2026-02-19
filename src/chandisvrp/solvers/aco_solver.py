@@ -20,7 +20,6 @@ class ACOSolver(Solver):
         node_of = {c.customer_id: c.node for c in instance.customers}
         pher = {cid: 1.0 for cid in cids}
         best_perm = cids[:]
-        rng.shuffle(best_perm)
 
         def score(perm: list[int]) -> float:
             routes = split_by_capacity(perm, instance.customers, instance.vehicle_capacity)

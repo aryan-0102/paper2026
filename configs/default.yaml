@@ -29,6 +29,7 @@ instance:
     min: 120
     max: 480
 stochastic:
+  start_hour: 8.0
   peak_hours: [8.0, 17.0]
   peak_sigma_h: 1.5
   congestion_strength: 0.35
@@ -45,5 +46,5 @@ stochastic:
 evaluation:
   mc_rollouts: 40
   run_seeds: [11, 22]
-  solvers: [nn2opt, ortools, abc, aco, hybrid_aco_abc, alns]
+  solvers: [random, nearest_neighbor, nn2opt, ortools, abc, aco, hybrid_aco_abc, alns]
   time_limit_s: 3
