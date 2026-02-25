@@ -16,9 +16,13 @@ class ABCSolver(Solver):
 
     def solve(self, g: nx.MultiDiGraph, instance: Instance, rng: np.random.Generator, time_limit_s: float) -> RoutePlan:
         cids = [c.customer_id for c in instance.customers]
+        if not cids:
+            return RoutePlan(routes=[], meta={"iterations": 0, "improvements": 0})
         node_of = {c.customer_id: c.node for c in instance.customers}
         best = cids[:]
         start = time.time()
+        iterations = 0
+        improvements = 0
 
         def score(perm: list[int]) -> float:
             routes = split_by_capacity(perm, instance.customers, instance.vehicle_capacity)
@@ -26,10 +30,15 @@ class ABCSolver(Solver):
 
         best_s = score(best)
         while time.time() - start < time_limit_s:
+            iterations += 1
             cand = best[:]
             i, j = rng.integers(0, len(cand), size=2)
             cand[i], cand[j] = cand[j], cand[i]
             sc = score(cand)
             if sc < best_s:
                 best, best_s = cand, sc
-        return RoutePlan(routes=split_by_capacity(best, instance.customers, instance.vehicle_capacity))
+                improvements += 1
+        return RoutePlan(
+            routes=split_by_capacity(best, instance.customers, instance.vehicle_capacity),
+            meta={"iterations": iterations, "improvements": improvements, "best_score": float(best_s)},
+        )

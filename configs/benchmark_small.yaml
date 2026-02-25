@@ -1,14 +1,14 @@
-seed: 7
+seed: 42
 place: Chandigarh, India
 city: Chandigarh
 inherits: configs/default.yaml
 instance:
-  n_instances: 10
-  n_customers: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+  n_instances: 13
+  n_customers: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 1000, 2000, 5000]
   n_vehicles: 4
   vehicle_capacity: 50
 evaluation:
   mc_rollouts: 20
   run_seeds: [1, 2, 3, 4, 5]
-  solvers: [random, nearest_neighbor, nn2opt, abc, alns, ortools]
+  solvers: [random, nearest_neighbor, nn2opt, abc, aco, alns, ortools]
   time_limit_s: 2

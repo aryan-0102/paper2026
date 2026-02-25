@@ -5,6 +5,7 @@ from typing import Any
 import networkx as nx
 import numpy as np
 
+from chandisvrp.geo.nearest import nearest_node
 from chandisvrp.instances.demand import sample_demand
 from chandisvrp.instances.time_windows import sample_time_window
 from chandisvrp.types import Customer, Instance
@@ -12,7 +13,11 @@ from chandisvrp.types import Customer, Instance
 
 def build_instances(g: nx.MultiDiGraph, cfg: dict[str, Any], city: str, rng: np.random.Generator) -> list[Instance]:
     inst_cfg = cfg["instance"]
-    depot = int(sorted(g.nodes())[0])
+    depot_cfg = inst_cfg.get("central_warehouse", {})
+    if isinstance(depot_cfg, dict) and "lat" in depot_cfg and "lon" in depot_cfg:
+        depot = nearest_node(g, float(depot_cfg["lon"]), float(depot_cfg["lat"]))
+    else:
+        depot = int(sorted(g.nodes())[0])
     nodes = [int(n) for n in g.nodes() if int(n) != depot]
     instances: list[Instance] = []
     for i in range(int(inst_cfg["n_instances"])):

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -41,10 +42,32 @@ class BenchmarkRunner:
     def run(self, instance_paths: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame]:
         rows = []
         eval_cfg = self.cfg["evaluation"]
-        for p in instance_paths:
+        total_jobs = len(instance_paths) * len(eval_cfg["run_seeds"]) * len(eval_cfg["solvers"])
+        job_idx = 0
+        print(f"[runner] running {total_jobs} jobs across {len(instance_paths)} instances", end="\n")
+        last_line_len = 0
+
+        def progress_bar(current: int, total: int, width: int = 30) -> str:
+            ratio = current / total if total else 0.0
+            filled = int(ratio * width)
+            return "[" + "=" * filled + "-" * (width - filled) + "]"
+
+        def update_progress(text: str) -> None:
+            nonlocal last_line_len
+            padded = text + " " * max(0, last_line_len - len(text))
+            sys.stdout.write("\r" + padded)
+            sys.stdout.flush()
+            last_line_len = len(text)
+
+        for i, p in enumerate(instance_paths, start=1):
             instance = load_instance(p)
             for seed in eval_cfg["run_seeds"]:
                 for sname in eval_cfg["solvers"]:
+                    job_idx += 1
+                    update_progress(
+                        f"{progress_bar(job_idx, total_jobs)} [runner] job {job_idx}/{total_jobs} running | "
+                        f"inst={instance.instance_id} | solver={sname} | seed={seed}"
+                    )
                     rng = np.random.default_rng(seed)
                     solver = SOLVERS[sname]()
                     t0 = time.time()
@@ -77,6 +100,11 @@ class BenchmarkRunner:
                         "lateness_p95_s": float(np.percentile(lates, 95)) if lates else 0.0,
                     }
                     rows.append(row)
+                    update_progress(
+                        f"{progress_bar(job_idx, total_jobs)} [runner] job {job_idx}/{total_jobs} complete | "
+                        f"inst={instance.instance_id} | solver={sname}"
+                    )
+        print()
         df = pd.DataFrame(rows)
         summary = df.groupby(["instance_id", "solver"], as_index=False).mean(numeric_only=True)
         std_metrics = [

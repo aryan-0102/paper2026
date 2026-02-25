@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "instance_id": "chandigarh_20_0",
+  "city": "Chandigarh",
+  "depot_node": 1429078519,
+  "customers": [
+    {
+      "customer_id": 1,
+      "node": 6967811905,
+      "demand": 4,
+      "service_time_s": 348.0,
+      "tw_start_s": 41105.173941070105,
+      "tw_end_s": 65988.71260453507,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 2,
+      "node": 6324551637,
+      "demand": 4,
+      "service_time_s": 287.0,
+      "tw_start_s": 39776.928695018505,
+      "tw_end_s": 58620.35997882293,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 3,
+      "node": 1428280435,
+      "demand": 7,
+      "service_time_s": 166.0,
+      "tw_start_s": 34850.62096974954,
+      "tw_end_s": 52884.612112320654,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 4,
+      "node": 11868497920,
+      "demand": 1,
+      "service_time_s": 407.0,
+      "tw_start_s": 38012.435763974056,
+      "tw_end_s": 54571.444350705235,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 5,
+      "node": 9631954410,
+      "demand": 3,
+      "service_time_s": 404.0,
+      "tw_start_s": 46154.381452219226,
+      "tw_end_s": 68986.25498725649,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 6,
+      "node": 6475551841,
+      "demand": 5,
+      "service_time_s": 245.0,
+      "tw_start_s": 42783.78536846111,
+      "tw_end_s": 63288.33531845795,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 7,
+      "node": 1428119323,
+      "demand": 1,
+      "service_time_s": 277.0,
+      "tw_start_s": 36812.10935222607,
+      "tw_end_s": 56828.862543522264,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 8,
+      "node": 1427203497,
+      "demand": 5,
+      "service_time_s": 240.0,
+      "tw_start_s": 35570.812583880186,
+      "tw_end_s": 53519.510942930654,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 9,
+      "node": 4112120656,
+      "demand": 2,
+      "service_time_s": 128.0,
+      "tw_start_s": 40201.48098644166,
+      "tw_end_s": 55989.755073156644,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 10,
+      "node": 1431220653,
+      "demand": 3,
+      "service_time_s": 243.0,
+      "tw_start_s": 42424.65036826604,
+      "tw_end_s": 60939.67961010805,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 11,
+      "node": 1429434290,
+      "demand": 5,
+      "service_time_s": 162.0,
+      "tw_start_s": 49083.56194618955,
+      "tw_end_s": 71040.39899134565,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 12,
+      "node": 1427203357,
+      "demand": 3,
+      "service_time_s": 287.0,
+      "tw_start_s": 42148.105882673495,
+      "tw_end_s": 57870.48981287649,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 13,
+      "node": 1430552882,
+      "demand": 4,
+      "service_time_s": 429.0,
+      "tw_start_s": 46360.26656569349,
+      "tw_end_s": 65426.87139526461,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 14,
+      "node": 9700416939,
+      "demand": 1,
+      "service_time_s": 183.0,
+      "tw_start_s": 37735.100847840804,
+      "tw_end_s": 52097.60194103489,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 15,
+      "node": 1428088088,
+      "demand": 2,
+      "service_time_s": 332.0,
+      "tw_start_s": 42391.297278469414,
+      "tw_end_s": 59466.75758723368,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 16,
+      "node": 6329991939,
+      "demand": 4,
+      "service_time_s": 315.0,
+      "tw_start_s": 42945.169491977766,
+      "tw_end_s": 65798.70994628085,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 17,
+      "node": 7087780735,
+      "demand": 1,
+      "service_time_s": 290.0,
+      "tw_start_s": 35980.945171299565,
+      "tw_end_s": 52404.20711799218,
+      "kind": "residential"
+    },
+    {
+      "customer_id": 18,
+      "node": 1429434549,
+      "demand": 3,
+      "service_time_s": 208.0,
+      "tw_start_s": 48904.71511449264,
+      "tw_end_s": 64819.405275677644,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 19,
+      "node": 5526816883,
+      "demand": 2,
+      "service_time_s": 358.0,
+      "tw_start_s": 47068.52388361426,
+      "tw_end_s": 62632.12609993794,
+      "kind": "commercial"
+    },
+    {
+      "customer_id": 20,
+      "node": 1432144415,
+      "demand": 5,
+      "service_time_s": 477.0,
+      "tw_start_s": 36405.96066571434,
+      "tw_end_s": 56167.6898915444,
+      "kind": "residential"
+    }
+  ],
+  "n_vehicles": 5,
+  "vehicle_capacity": 60
+}

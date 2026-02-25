@@ -1,5 +1,7 @@
 from __future__ import annotations
+import time
 
+current = time.localtime()
 import sys
 from pathlib import Path
 
@@ -14,3 +16,6 @@ from chandisvrp.cli import run_all
 
 if __name__ == "__main__":
     run_all("configs/benchmark_small.yaml", "reports/interactive_map.html", True)
+current = time.localtime() - current
+
+print(current)
